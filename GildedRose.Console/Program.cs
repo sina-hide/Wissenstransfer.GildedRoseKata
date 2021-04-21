@@ -4,7 +4,7 @@ namespace GildedRose.Console
 {
     class Program
     {
-        IList<Item> Items;
+        IList<Item> Items; // Don't change this field!
         static void Main(string[] args)
         {
             System.Console.WriteLine("OMGHAI!");
@@ -112,7 +112,7 @@ namespace GildedRose.Console
 
     }
 
-    public class Item
+    public class Item // Don't change this class!
     {
         public string Name { get; set; }
 
