@@ -92,21 +92,21 @@ namespace GildedRose.Console
             if (item.Quality < 50)
             {
                 item.IncrementItemQuality();
+            }
 
-                if (item.SellIn < 11)
+            if (item.SellIn < 11)
+            {
+                if (item.Quality < 50)
                 {
-                    if (item.Quality < 50)
-                    {
-                        item.IncrementItemQuality();
-                    }
+                    item.IncrementItemQuality();
                 }
+            }
 
-                if (item.SellIn < 6)
+            if (item.SellIn < 6)
+            {
+                if (item.Quality < 50)
                 {
-                    if (item.Quality < 50)
-                    {
-                        item.IncrementItemQuality();
-                    }
+                    item.IncrementItemQuality();
                 }
             }
 
