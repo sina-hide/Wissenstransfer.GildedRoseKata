@@ -67,19 +67,13 @@ namespace GildedRose.Console
 
         private static void UpdateAgedBrieItem(Item item)
         {
-            if (item.Quality < 50)
-            {
-                item.IncrementItemQuality();
-            }
+            item.IncrementItemQuality();
 
             item.DecrementItemSellIn();
 
             if (item.SellIn < 0)
             {
-                if (item.Quality < 50)
-                {
-                    item.IncrementItemQuality();
-                }
+                item.IncrementItemQuality();
             }
         }
 
@@ -89,25 +83,16 @@ namespace GildedRose.Console
 
         private static void UpdateBackstageItem(Item item)
         {
-            if (item.Quality < 50)
+            item.IncrementItemQuality();
+
+            if (item.SellIn < 11)
             {
                 item.IncrementItemQuality();
             }
 
-            if (item.SellIn < 11)
-            {
-                if (item.Quality < 50)
-                {
-                    item.IncrementItemQuality();
-                }
-            }
-
             if (item.SellIn < 6)
             {
-                if (item.Quality < 50)
-                {
-                    item.IncrementItemQuality();
-                }
+                item.IncrementItemQuality();
             }
 
             item.DecrementItemSellIn();
@@ -120,19 +105,13 @@ namespace GildedRose.Console
 
         private static void UpdateDefaultItem(Item item)
         {
-            if (item.Quality > 0)
-            {
-                item.DecrementItemQuality();
-            }
+            item.DecrementItemQuality();
 
             item.DecrementItemSellIn();
 
             if (item.SellIn < 0)
             {
-                if (item.Quality > 0)
-                {
-                    item.DecrementItemQuality();
-                }
+                item.DecrementItemQuality();
             }
         }
     }
@@ -141,12 +120,18 @@ namespace GildedRose.Console
     {
         public static void IncrementItemQuality(this Item item)
         {
-            item.Quality += 1;
+            if (item.Quality < 50)
+            {
+                item.Quality += 1;
+            }
         }
 
         public static void DecrementItemQuality(this Item item)
         {
-            item.Quality -= 1;
+            if (item.Quality > 0)
+            {
+                item.Quality -= 1;
+            }
         }
 
         public static void DropItemQualityToZero(this Item item)
