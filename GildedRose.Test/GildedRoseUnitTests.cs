@@ -31,6 +31,11 @@ namespace GildedRose.Test
         [InlineData("Elixir of the Mongoose", 10, 0)]
         [InlineData("Backstage passes to a TAFKAL80ETC concert", 0, 0)]
         [InlineData("Conjured Mana Cake", 10, 0)]
+        [InlineData("Conjured Mana Cake", 10, 1)]
+        [InlineData("Conjured Mana Cake", 0, 0)]
+        [InlineData("Conjured Mana Cake", 0, 1)]
+        [InlineData("Conjured Mana Cake", 0, 2)]
+        [InlineData("Conjured Mana Cake", 0, 3)]
         public void QualityIsNeverNegative(string name, int sellIn, int quality) =>
             AssertQualityAfterUpdateIsNotNegative(
                 new Item { Name = name, SellIn = sellIn, Quality = quality });
@@ -80,6 +85,17 @@ namespace GildedRose.Test
             AssertQualityAfterUpdate(
                 quality + qualityChange,
                 new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = sellIn, Quality = quality });
+        }
+
+        [Theory]
+        [InlineData(10, -2)]
+        [InlineData(0, -4)]
+        public void ConjuredQualityDecreasesTwiceAsFast(int sellIn, int qualityChange)
+        {
+            var quality = 10;
+            AssertQualityAfterUpdate(
+                quality + qualityChange,
+                new Item { Name = "Conjured Mana Cake", SellIn = sellIn, Quality = quality });
         }
 
         [Fact]
