@@ -67,292 +67,71 @@ namespace GildedRose.Console
 
         private static void UpdateAgedBrieItem(Item item)
         {
-            if (item.Name != AgedBrie && item.Name != Backstage)
+            if (item.Quality < 50)
             {
-                if (item.Quality > 0)
-                {
-                    if (item.Name != Sulfuras)
-                    {
-                        item.DecrementItemQuality();
-                    }
-                }
+                item.IncrementItemQuality();
             }
-            else
+
+            item.DecrementItemSellIn();
+
+            if (item.SellIn < 0)
             {
                 if (item.Quality < 50)
                 {
                     item.IncrementItemQuality();
-
-                    if (item.Name == Backstage)
-                    {
-                        if (item.SellIn < 11)
-                        {
-                            if (item.Quality < 50)
-                            {
-                                item.IncrementItemQuality();
-                            }
-                        }
-
-                        if (item.SellIn < 6)
-                        {
-                            if (item.Quality < 50)
-                            {
-                                item.IncrementItemQuality();
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (item.Name != Sulfuras)
-            {
-                item.DecrementItemSellIn();
-            }
-
-            if (item.SellIn < 0)
-            {
-                if (item.Name != AgedBrie)
-                {
-                    if (item.Name != Backstage)
-                    {
-                        if (item.Quality > 0)
-                        {
-                            if (item.Name != Sulfuras)
-                            {
-                                item.DecrementItemQuality();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        item.DropItemQualityToZero();
-                    }
-                }
-                else
-                {
-                    if (item.Quality < 50)
-                    {
-                        item.IncrementItemQuality();
-                    }
                 }
             }
         }
 
         private static void UpdateSulfurasItem(Item item)
         {
-            if (item.Name != AgedBrie && item.Name != Backstage)
-            {
-                if (item.Quality > 0)
-                {
-                    if (item.Name != Sulfuras)
-                    {
-                        item.DecrementItemQuality();
-                    }
-                }
-            }
-            else
-            {
-                if (item.Quality < 50)
-                {
-                    item.IncrementItemQuality();
-
-                    if (item.Name == Backstage)
-                    {
-                        if (item.SellIn < 11)
-                        {
-                            if (item.Quality < 50)
-                            {
-                                item.IncrementItemQuality();
-                            }
-                        }
-
-                        if (item.SellIn < 6)
-                        {
-                            if (item.Quality < 50)
-                            {
-                                item.IncrementItemQuality();
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (item.Name != Sulfuras)
-            {
-                item.DecrementItemSellIn();
-            }
-
-            if (item.SellIn < 0)
-            {
-                if (item.Name != AgedBrie)
-                {
-                    if (item.Name != Backstage)
-                    {
-                        if (item.Quality > 0)
-                        {
-                            if (item.Name != Sulfuras)
-                            {
-                                item.DecrementItemQuality();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        item.DropItemQualityToZero();
-                    }
-                }
-                else
-                {
-                    if (item.Quality < 50)
-                    {
-                        item.IncrementItemQuality();
-                    }
-                }
-            }
         }
 
         private static void UpdateBackstageItem(Item item)
         {
-            if (item.Name != AgedBrie && item.Name != Backstage)
+            if (item.Quality < 50)
             {
-                if (item.Quality > 0)
-                {
-                    if (item.Name != Sulfuras)
-                    {
-                        item.DecrementItemQuality();
-                    }
-                }
-            }
-            else
-            {
-                if (item.Quality < 50)
-                {
-                    item.IncrementItemQuality();
+                item.IncrementItemQuality();
 
-                    if (item.Name == Backstage)
-                    {
-                        if (item.SellIn < 11)
-                        {
-                            if (item.Quality < 50)
-                            {
-                                item.IncrementItemQuality();
-                            }
-                        }
-
-                        if (item.SellIn < 6)
-                        {
-                            if (item.Quality < 50)
-                            {
-                                item.IncrementItemQuality();
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (item.Name != Sulfuras)
-            {
-                item.DecrementItemSellIn();
-            }
-
-            if (item.SellIn < 0)
-            {
-                if (item.Name != AgedBrie)
-                {
-                    if (item.Name != Backstage)
-                    {
-                        if (item.Quality > 0)
-                        {
-                            if (item.Name != Sulfuras)
-                            {
-                                item.DecrementItemQuality();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        item.DropItemQualityToZero();
-                    }
-                }
-                else
+                if (item.SellIn < 11)
                 {
                     if (item.Quality < 50)
                     {
                         item.IncrementItemQuality();
                     }
                 }
+
+                if (item.SellIn < 6)
+                {
+                    if (item.Quality < 50)
+                    {
+                        item.IncrementItemQuality();
+                    }
+                }
+            }
+
+            item.DecrementItemSellIn();
+
+            if (item.SellIn < 0)
+            {
+                item.DropItemQualityToZero();
             }
         }
 
         private static void UpdateDefaultItem(Item item)
         {
-            if (item.Name != AgedBrie && item.Name != Backstage)
+            if (item.Quality > 0)
             {
-                if (item.Quality > 0)
-                {
-                    if (item.Name != Sulfuras)
-                    {
-                        item.DecrementItemQuality();
-                    }
-                }
-            }
-            else
-            {
-                if (item.Quality < 50)
-                {
-                    item.IncrementItemQuality();
-
-                    if (item.Name == Backstage)
-                    {
-                        if (item.SellIn < 11)
-                        {
-                            if (item.Quality < 50)
-                            {
-                                item.IncrementItemQuality();
-                            }
-                        }
-
-                        if (item.SellIn < 6)
-                        {
-                            if (item.Quality < 50)
-                            {
-                                item.IncrementItemQuality();
-                            }
-                        }
-                    }
-                }
+                item.DecrementItemQuality();
             }
 
-            if (item.Name != Sulfuras)
-            {
-                item.DecrementItemSellIn();
-            }
+            item.DecrementItemSellIn();
 
             if (item.SellIn < 0)
             {
-                if (item.Name != AgedBrie)
+                if (item.Quality > 0)
                 {
-                    if (item.Name != Backstage)
-                    {
-                        if (item.Quality > 0)
-                        {
-                            if (item.Name != Sulfuras)
-                            {
-                                item.DecrementItemQuality();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        item.DropItemQualityToZero();
-                    }
-                }
-                else
-                {
-                    if (item.Quality < 50)
-                    {
-                        item.IncrementItemQuality();
-                    }
+                    item.DecrementItemQuality();
                 }
             }
         }
