@@ -4,6 +4,13 @@ namespace GildedRose.Console
 {
     public class Program
     {
+        private const string DexterityVest = "+5 Dexterity Vest";
+        private const string AgedBrie = "Aged Brie";
+        private const string ElixirOfTheMongoose = "Elixir of the Mongoose";
+        private const string Sulfuras = "Sulfuras, Hand of Ragnaros";
+        private const string Backstage = "Backstage passes to a TAFKAL80ETC concert";
+        private const string Conjured = "Conjured Mana Cake";
+
         public Program(params Item[] items)
         {
             Items = items;
@@ -19,17 +26,12 @@ namespace GildedRose.Console
             {
                 Items = new List<Item>
                 {
-                    new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
-                    new Item { Name = "Aged Brie", SellIn = 2, Quality = 0 },
-                    new Item { Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7 },
-                    new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 },
-                    new Item
-                    {
-                        Name = "Backstage passes to a TAFKAL80ETC concert",
-                        SellIn = 15,
-                        Quality = 20
-                    },
-                    new Item { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
+                    new Item { Name = DexterityVest, SellIn = 10, Quality = 20 },
+                    new Item { Name = AgedBrie, SellIn = 2, Quality = 0 },
+                    new Item { Name = ElixirOfTheMongoose, SellIn = 5, Quality = 7 },
+                    new Item { Name = Sulfuras, SellIn = 0, Quality = 80 },
+                    new Item { Name = Backstage, SellIn = 15, Quality = 20 },
+                    new Item { Name = Conjured, SellIn = 3, Quality = 6 }
                 }
             };
 
@@ -42,11 +44,11 @@ namespace GildedRose.Console
         {
             foreach (var item in Items)
             {
-                if (item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert")
+                if (item.Name != AgedBrie && item.Name != Backstage)
                 {
                     if (item.Quality > 0)
                     {
-                        if (item.Name != "Sulfuras, Hand of Ragnaros")
+                        if (item.Name != Sulfuras)
                         {
                             item.DecrementItemQuality();
                         }
@@ -58,7 +60,7 @@ namespace GildedRose.Console
                     {
                         item.IncrementItemQuality();
 
-                        if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
+                        if (item.Name == Backstage)
                         {
                             if (item.SellIn < 11)
                             {
@@ -79,20 +81,20 @@ namespace GildedRose.Console
                     }
                 }
 
-                if (item.Name != "Sulfuras, Hand of Ragnaros")
+                if (item.Name != Sulfuras)
                 {
                     item.DecrementItemSellIn();
                 }
 
                 if (item.SellIn < 0)
                 {
-                    if (item.Name != "Aged Brie")
+                    if (item.Name != AgedBrie)
                     {
-                        if (item.Name != "Backstage passes to a TAFKAL80ETC concert")
+                        if (item.Name != Backstage)
                         {
                             if (item.Quality > 0)
                             {
-                                if (item.Name != "Sulfuras, Hand of Ragnaros")
+                                if (item.Name != Sulfuras)
                                 {
                                     item.DecrementItemQuality();
                                 }
