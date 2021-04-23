@@ -49,7 +49,7 @@ namespace GildedRose.Console
                     {
                         if (item.Name != "Sulfuras, Hand of Ragnaros")
                         {
-                            DecrementItemQuality(item);
+                            item.DecrementItemQuality();
                         }
                     }
                 }
@@ -57,7 +57,7 @@ namespace GildedRose.Console
                 {
                     if (item.Quality < 50)
                     {
-                        IncrementItemQuality(item);
+                        item.IncrementItemQuality();
 
                         if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
                         {
@@ -65,7 +65,7 @@ namespace GildedRose.Console
                             {
                                 if (item.Quality < 50)
                                 {
-                                    IncrementItemQuality(item);
+                                    item.IncrementItemQuality();
                                 }
                             }
 
@@ -73,7 +73,7 @@ namespace GildedRose.Console
                             {
                                 if (item.Quality < 50)
                                 {
-                                    IncrementItemQuality(item);
+                                    item.IncrementItemQuality();
                                 }
                             }
                         }
@@ -82,7 +82,7 @@ namespace GildedRose.Console
 
                 if (item.Name != "Sulfuras, Hand of Ragnaros")
                 {
-                    DecrementItemSellIn(item);
+                    item.DecrementItemSellIn();
                 }
 
                 if (item.SellIn < 0)
@@ -95,42 +95,45 @@ namespace GildedRose.Console
                             {
                                 if (item.Name != "Sulfuras, Hand of Ragnaros")
                                 {
-                                    DecrementItemQuality(item);
+                                    item.DecrementItemQuality();
                                 }
                             }
                         }
                         else
                         {
-                            DropItemQualityToZero(item);
+                            item.DropItemQualityToZero();
                         }
                     }
                     else
                     {
                         if (item.Quality < 50)
                         {
-                            IncrementItemQuality(item);
+                            item.IncrementItemQuality();
                         }
                     }
                 }
             }
         }
+    }
 
-        private static void IncrementItemQuality(Item item)
+    public static class ItemExtensions
+    {
+        public static void IncrementItemQuality(this Item item)
         {
             item.Quality += 1;
         }
 
-        private static void DecrementItemQuality(Item item)
+        public static void DecrementItemQuality(this Item item)
         {
             item.Quality -= 1;
         }
 
-        private static void DropItemQualityToZero(Item item)
+        public static void DropItemQualityToZero(this Item item)
         {
             item.Quality = 0;
         }
 
-        private static void DecrementItemSellIn(Item item)
+        public static void DecrementItemSellIn(this Item item)
         {
             item.SellIn -= 1;
         }
