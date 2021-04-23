@@ -44,24 +44,29 @@ namespace GildedRose.Console
         {
             foreach (var item in Items)
             {
-                switch (item.Name)
-                {
-                    case AgedBrie:
-                        UpdateAgedBrieItem(item);
-                        break;
+                UpdateItem(item);
+            }
+        }
 
-                    case Sulfuras:
-                        UpdateSulfurasItem(item);
-                        break;
+        private static void UpdateItem(Item item)
+        {
+            switch (item.Name)
+            {
+                case AgedBrie:
+                    UpdateAgedBrieItem(item);
+                    break;
 
-                    case Backstage:
-                        UpdateBackstageItem(item);
-                        break;
+                case Sulfuras:
+                    UpdateSulfurasItem(item);
+                    break;
 
-                    default:
-                        UpdateDefaultItem(item);
-                        break;
-                }
+                case Backstage:
+                    UpdateBackstageItem(item);
+                    break;
+
+                default:
+                    UpdateDefaultItem(item);
+                    break;
             }
         }
 
