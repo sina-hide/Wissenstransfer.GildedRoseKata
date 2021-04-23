@@ -84,6 +84,8 @@ namespace GildedRose.Console
 
         private static void UpdateSulfurasItem(Item item)
         {
+            // Sulfuras doesn't lose or gain quality; and its sellIn does not
+            // change.
         }
 
         private static void UpdateBackstageItem(Item item)
