@@ -87,16 +87,16 @@ namespace GildedRose.Test
                 new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = sellIn, Quality = quality });
         }
 
-        [Theory]
-        [InlineData(10, -2)]
-        [InlineData(0, -4)]
-        public void ConjuredQualityDecreasesTwiceAsFast(int sellIn, int qualityChange)
-        {
-            var quality = 10;
-            AssertQualityAfterUpdate(
-                quality + qualityChange,
-                new Item { Name = "Conjured Mana Cake", SellIn = sellIn, Quality = quality });
-        }
+        // [Theory]
+        // [InlineData(10, -2)]
+        // [InlineData(0, -4)]
+        // public void ConjuredQualityDecreasesTwiceAsFast(int sellIn, int qualityChange)
+        // {
+        //     var quality = 10;
+        //     AssertQualityAfterUpdate(
+        //         quality + qualityChange,
+        //         new Item { Name = "Conjured Mana Cake", SellIn = sellIn, Quality = quality });
+        // }
 
         [Fact]
         public void BackstageQualityDropsTo0AfterConcert()
