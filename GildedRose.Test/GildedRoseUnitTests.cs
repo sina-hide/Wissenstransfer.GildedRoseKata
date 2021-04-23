@@ -51,6 +51,12 @@ namespace GildedRose.Test
                 new Item { Name = "Aged Brie", SellIn = 10, Quality = 10 });
 
         [Fact]
+        public void AgedBrieIncreasesInQualityTwiceAsFastOnceSellDateHasPassed() =>
+            AssertQualityAfterUpdate(
+                12,
+                new Item { Name = "Aged Brie", SellIn = 0, Quality = 10 });
+
+        [Fact]
         public void SulfurasNeverHasToBeSold() =>
             AssertSellInAfterUpdate(
                 10,
