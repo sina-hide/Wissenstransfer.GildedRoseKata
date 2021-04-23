@@ -6,13 +6,13 @@ namespace GildedRose.Test
     public class GildedRoseUnitTests
     {
         [Fact]
-        public void TestQuality() =>
+        public void QualityDecreasesForStandardItem() =>
             AssertQualityAfterUpdate(
                 19,
                 new Item { Name = "Elixir of the Mongoose", SellIn = 10, Quality = 20 });
 
         [Fact]
-        public void TestSellIn() =>
+        public void SellInDecreasesForStandardItem() =>
             AssertSellInAfterUpdate(
                 9,
                 new Item { Name = "Elixir of the Mongoose", SellIn = 10, Quality = 20 });
