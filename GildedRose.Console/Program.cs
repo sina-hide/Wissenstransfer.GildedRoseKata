@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GildedRose.Console
 {
@@ -54,22 +55,26 @@ namespace GildedRose.Console
             updater.UpdateItem(item);
         }
 
+        private static readonly IDictionary<string, ItemUpdater> ItemUpdaterMap =
+            CreateItemUpdaterMap();
+
+        private static readonly ItemUpdater DefaultUpdater =
+            new DefaultItemUpdater();
+
+        private static IDictionary<string,ItemUpdater> CreateItemUpdaterMap()
+        {
+            return new Dictionary<string, ItemUpdater>
+            {
+                { AgedBrie, new AgedBrieUpdater() },
+                { Sulfuras, new SulfurasUpdater() },
+                { Backstage, new BackstageUpdater() },
+            };
+        }
+
         private static ItemUpdater SelectItemUpdater(Item item)
         {
-            switch (item.Name)
-            {
-                case AgedBrie:
-                    return new AgedBrieUpdater();
-
-                case Sulfuras:
-                    return new SulfurasUpdater();
-
-                case Backstage:
-                    return new BackstageUpdater();
-
-                default:
-                    return new DefaultItemUpdater();
-            }
+            var found = ItemUpdaterMap.TryGetValue(item.Name, out var updater);
+            return found ? updater : DefaultUpdater;
         }
     }
 
