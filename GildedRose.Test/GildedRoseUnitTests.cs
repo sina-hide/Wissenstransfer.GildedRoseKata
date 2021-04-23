@@ -6,39 +6,33 @@ namespace GildedRose.Test
     public class GildedRoseUnitTests
     {
         [Fact]
-        public void TestQuality()
-        {
-            var name = "Elixir of the Mongoose";
-            var sellIn = 10;
-            var quality = 20;
-
-            var item = new Item { Name = name, SellIn = sellIn, Quality = quality };
-            var program = new Program(item);
-            program.UpdateQuality();
-
-            var actualQuality = item.Quality;
-
-            var expectedQuality = 19;
-
-            Assert.Equal(expectedQuality, actualQuality);
-        }
+        public void TestQuality() =>
+            AssertQualityAfterUpdate(
+                19,
+                new Item { Name = "Elixir of the Mongoose", SellIn = 10, Quality = 20 });
 
         [Fact]
-        public void TestSellIn()
-        {
-            var name = "Elixir of the Mongoose";
-            var sellIn = 10;
-            var quality = 20;
+        public void TestSellIn() =>
+            AssertSellInAfterUpdate(
+                9,
+                new Item { Name = "Elixir of the Mongoose", SellIn = 10, Quality = 20 });
 
-            var item = new Item { Name = name, SellIn = sellIn, Quality = quality };
+        private static void AssertQualityAfterUpdate(int expectedQuality, Item item)
+        {
+            UpdateItemQuality(item);
+            Assert.Equal(expectedQuality, item.Quality);
+        }
+
+        private static void AssertSellInAfterUpdate(int expectedSellIn, Item item)
+        {
+            UpdateItemQuality(item);
+            Assert.Equal(expectedSellIn, item.SellIn);
+        }
+
+        private static void UpdateItemQuality(Item item)
+        {
             var program = new Program(item);
             program.UpdateQuality();
-
-            var actualSellIn = item.SellIn;
-
-            var expectedSellIn = 9;
-
-            Assert.Equal(expectedSellIn, actualSellIn);
         }
     }
 }
