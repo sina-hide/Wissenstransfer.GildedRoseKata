@@ -50,23 +50,25 @@ namespace GildedRose.Console
 
         private static void UpdateItem(Item item)
         {
+            var updater = SelectItemUpdater(item);
+            updater.UpdateItem(item);
+        }
+
+        private static ItemUpdater SelectItemUpdater(Item item)
+        {
             switch (item.Name)
             {
                 case AgedBrie:
-                    new AgedBrieUpdater().UpdateItem(item);
-                    break;
+                    return new AgedBrieUpdater();
 
                 case Sulfuras:
-                    new SulfurasUpdater().UpdateItem(item);
-                    break;
+                    return new SulfurasUpdater();
 
                 case Backstage:
-                    new BackstageUpdater().UpdateItem(item);
-                    break;
+                    return new BackstageUpdater();
 
                 default:
-                    new DefaultItemUpdater().UpdateItem(item);
-                    break;
+                    return new DefaultItemUpdater();
             }
         }
     }
