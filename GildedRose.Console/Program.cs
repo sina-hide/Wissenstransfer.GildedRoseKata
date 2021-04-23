@@ -53,24 +53,32 @@ namespace GildedRose.Console
             switch (item.Name)
             {
                 case AgedBrie:
-                    UpdateAgedBrieItem(item);
+                    new AgedBrieUpdater().UpdateItem(item);
                     break;
 
                 case Sulfuras:
-                    UpdateSulfurasItem(item);
+                    new SulfurasUpdater().UpdateItem(item);
                     break;
 
                 case Backstage:
-                    UpdateBackstageItem(item);
+                    new BackstageUpdater().UpdateItem(item);
                     break;
 
                 default:
-                    UpdateDefaultItem(item);
+                    new DefaultItemUpdater().UpdateItem(item);
                     break;
             }
         }
+    }
 
-        private static void UpdateAgedBrieItem(Item item)
+    public abstract class ItemUpdater
+    {
+        public abstract void UpdateItem(Item item);
+    }
+
+    public class AgedBrieUpdater : ItemUpdater
+    {
+        public override void UpdateItem(Item item)
         {
             item.IncrementItemQuality();
 
@@ -81,14 +89,20 @@ namespace GildedRose.Console
                 item.IncrementItemQuality();
             }
         }
+    }
 
-        private static void UpdateSulfurasItem(Item item)
+    public class SulfurasUpdater : ItemUpdater
+    {
+        public override void UpdateItem(Item item)
         {
             // Sulfuras doesn't lose or gain quality; and its sellIn does not
             // change.
         }
+    }
 
-        private static void UpdateBackstageItem(Item item)
+    public class BackstageUpdater : ItemUpdater
+    {
+        public override void UpdateItem(Item item)
         {
             item.IncrementItemQuality();
 
@@ -109,8 +123,11 @@ namespace GildedRose.Console
                 item.DropItemQualityToZero();
             }
         }
+    }
 
-        private static void UpdateDefaultItem(Item item)
+    public class DefaultItemUpdater : ItemUpdater
+    {
+        public override void UpdateItem(Item item)
         {
             item.DecrementItemQuality();
 
