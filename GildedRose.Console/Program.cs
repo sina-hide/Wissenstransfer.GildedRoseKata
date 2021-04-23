@@ -68,6 +68,7 @@ namespace GildedRose.Console
                 { AgedBrie, new AgedBrieUpdater() },
                 { Sulfuras, new SulfurasUpdater() },
                 { Backstage, new BackstageUpdater() },
+                { Conjured, new ConjuredUpdater() },
             };
         }
 
@@ -128,6 +129,23 @@ namespace GildedRose.Console
             if (item.SellIn < 0)
             {
                 item.DropItemQualityToZero();
+            }
+        }
+    }
+
+    public class ConjuredUpdater : ItemUpdater
+    {
+        public override void UpdateItem(Item item)
+        {
+            item.DecrementItemQuality();
+            item.DecrementItemQuality();
+
+            item.DecrementItemSellIn();
+
+            if (item.SellIn < 0)
+            {
+                item.DecrementItemQuality();
+                item.DecrementItemQuality();
             }
         }
     }
