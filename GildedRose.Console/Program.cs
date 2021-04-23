@@ -44,14 +44,71 @@ namespace GildedRose.Console
         {
             foreach (var item in Items)
             {
-                if (item.Name != AgedBrie && item.Name != Backstage)
+                UpdateItem(item);
+            }
+        }
+
+        private static void UpdateItem(Item item)
+        {
+            if (item.Name != AgedBrie && item.Name != Backstage)
+            {
+                if (item.Quality > 0)
                 {
-                    if (item.Quality > 0)
+                    if (item.Name != Sulfuras)
                     {
-                        if (item.Name != Sulfuras)
+                        item.DecrementItemQuality();
+                    }
+                }
+            }
+            else
+            {
+                if (item.Quality < 50)
+                {
+                    item.IncrementItemQuality();
+
+                    if (item.Name == Backstage)
+                    {
+                        if (item.SellIn < 11)
                         {
-                            item.DecrementItemQuality();
+                            if (item.Quality < 50)
+                            {
+                                item.IncrementItemQuality();
+                            }
                         }
+
+                        if (item.SellIn < 6)
+                        {
+                            if (item.Quality < 50)
+                            {
+                                item.IncrementItemQuality();
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (item.Name != Sulfuras)
+            {
+                item.DecrementItemSellIn();
+            }
+
+            if (item.SellIn < 0)
+            {
+                if (item.Name != AgedBrie)
+                {
+                    if (item.Name != Backstage)
+                    {
+                        if (item.Quality > 0)
+                        {
+                            if (item.Name != Sulfuras)
+                            {
+                                item.DecrementItemQuality();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        item.DropItemQualityToZero();
                     }
                 }
                 else
@@ -59,58 +116,6 @@ namespace GildedRose.Console
                     if (item.Quality < 50)
                     {
                         item.IncrementItemQuality();
-
-                        if (item.Name == Backstage)
-                        {
-                            if (item.SellIn < 11)
-                            {
-                                if (item.Quality < 50)
-                                {
-                                    item.IncrementItemQuality();
-                                }
-                            }
-
-                            if (item.SellIn < 6)
-                            {
-                                if (item.Quality < 50)
-                                {
-                                    item.IncrementItemQuality();
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (item.Name != Sulfuras)
-                {
-                    item.DecrementItemSellIn();
-                }
-
-                if (item.SellIn < 0)
-                {
-                    if (item.Name != AgedBrie)
-                    {
-                        if (item.Name != Backstage)
-                        {
-                            if (item.Quality > 0)
-                            {
-                                if (item.Name != Sulfuras)
-                                {
-                                    item.DecrementItemQuality();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            item.DropItemQualityToZero();
-                        }
-                    }
-                    else
-                    {
-                        if (item.Quality < 50)
-                        {
-                            item.IncrementItemQuality();
-                        }
                     }
                 }
             }
