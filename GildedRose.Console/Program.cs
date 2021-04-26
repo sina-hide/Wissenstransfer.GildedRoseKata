@@ -53,26 +53,26 @@ namespace GildedRose.Console
             switch (item.Name)
             {
                 case AgedBrie:
-                    Updater.UpdateAgedBrieItemQuality(item);
+                    new Updater().UpdateAgedBrieItemQuality(item);
                     break;
 
                 case Sulfuras:
-                    Updater.UpdateSulfurasItemQuality(item);
+                    new Updater().UpdateSulfurasItemQuality(item);
                     break;
 
                 case BackstagePasses:
-                    Updater.UpdateBackstagePassesItemQuality(item);
+                    new Updater().UpdateBackstagePassesItemQuality(item);
                     break;
 
                 default:
-                    Updater.UpdateStandardItemQuality(item);
+                    new Updater().UpdateStandardItemQuality(item);
                     break;
             }
         }
 
         private class Updater
         {
-            public static void UpdateAgedBrieItemQuality(Item item)
+            public void UpdateAgedBrieItemQuality(Item item)
             {
                 if (item.Quality < 50)
                 {
@@ -90,11 +90,11 @@ namespace GildedRose.Console
                 }
             }
 
-            public static void UpdateSulfurasItemQuality(Item item)
+            public void UpdateSulfurasItemQuality(Item item)
             {
             }
 
-            public static void UpdateBackstagePassesItemQuality(Item item)
+            public void UpdateBackstagePassesItemQuality(Item item)
             {
                 if (item.Quality < 50)
                 {
@@ -125,7 +125,7 @@ namespace GildedRose.Console
                 }
             }
 
-            public static void UpdateStandardItemQuality(Item item)
+            public void UpdateStandardItemQuality(Item item)
             {
                 if (item.Quality > 0)
                 {
