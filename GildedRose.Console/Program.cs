@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace GildedRose.Console
 {
@@ -54,31 +57,34 @@ namespace GildedRose.Console
             updater.UpdateItemQuality(item);
         }
 
-        private static Updater SelectUpdater(Item item)
+        private static Updater SelectUpdater(Item item) =>
+            CreateUpdaters().First(updater => updater.CanHandle(item.Name));
+
+        private static IEnumerable<Updater> CreateUpdaters() =>
+            from type in Assembly.GetExecutingAssembly().GetTypes()
+            let updaterAttribute = type.GetCustomAttribute<UpdaterAttribute>()
+            where updaterAttribute != null
+            orderby updaterAttribute.IsDefault
+            select (Updater)Activator.CreateInstance(type);
+
+        [AttributeUsage(AttributeTargets.Class)]
+        public class UpdaterAttribute : Attribute
         {
-            switch (item.Name)
-            {
-                case AgedBrie:
-                    return new AgedBrieUpdater();
-
-                case Sulfuras:
-                    return new SulfurasUpdater();
-
-                case BackstagePasses:
-                    return new BackstagePassesUpdater();
-
-                default:
-                    return new StandardUpdater();
-            }
+            public bool IsDefault { get; set; } = false;
         }
 
         private abstract class Updater
         {
+            public abstract bool CanHandle(string name);
+
             public abstract void UpdateItemQuality(Item item);
         }
 
+        [Updater]
         private class AgedBrieUpdater : Updater
         {
+            public override bool CanHandle(string name) => name == AgedBrie;
+
             public override void UpdateItemQuality(Item item)
             {
                 if (item.Quality < 50)
@@ -98,15 +104,21 @@ namespace GildedRose.Console
             }
         }
 
+        [Updater]
         private class SulfurasUpdater : Updater
         {
+            public override bool CanHandle(string name) => name == Sulfuras;
+
             public override void UpdateItemQuality(Item item)
             {
             }
         }
 
+        [Updater]
         private class BackstagePassesUpdater : Updater
         {
+            public override bool CanHandle(string name) => name == BackstagePasses;
+
             public override void UpdateItemQuality(Item item)
             {
                 if (item.Quality < 50)
@@ -139,8 +151,11 @@ namespace GildedRose.Console
             }
         }
 
+        [Updater(IsDefault = true)]
         private class StandardUpdater : Updater
         {
+            public override bool CanHandle(string name) => true;
+
             public override void UpdateItemQuality(Item item)
             {
                 if (item.Quality > 0)
