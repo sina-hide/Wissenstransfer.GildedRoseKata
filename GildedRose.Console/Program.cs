@@ -53,64 +53,35 @@ namespace GildedRose.Console
             switch (item.Name)
             {
                 case AgedBrie:
-                    UpdateAgedBrieItemQuality(item);
+                    Updater.UpdateAgedBrieItemQuality(item);
                     break;
 
                 case Sulfuras:
-                    UpdateSulfurasItemQuality(item);
+                    Updater.UpdateSulfurasItemQuality(item);
                     break;
 
                 case BackstagePasses:
-                    UpdateBackstagePassesItemQuality(item);
+                    Updater.UpdateBackstagePassesItemQuality(item);
                     break;
 
                 default:
-                    UpdateStandardItemQuality(item);
+                    Updater.UpdateStandardItemQuality(item);
                     break;
             }
         }
 
         private class Updater
         {
-        }
-
-        private static void UpdateAgedBrieItemQuality(Item item)
-        {
-            if (item.Quality < 50)
-            {
-                item.Quality++;
-            }
-
-            item.SellIn--;
-
-            if (item.SellIn < 0)
+            public static void UpdateAgedBrieItemQuality(Item item)
             {
                 if (item.Quality < 50)
                 {
                     item.Quality++;
                 }
-            }
-        }
 
-        private static void UpdateSulfurasItemQuality(Item item)
-        {
-        }
+                item.SellIn--;
 
-        private static void UpdateBackstagePassesItemQuality(Item item)
-        {
-            if (item.Quality < 50)
-            {
-                item.Quality++;
-
-                if (item.SellIn < 11)
-                {
-                    if (item.Quality < 50)
-                    {
-                        item.Quality++;
-                    }
-                }
-
-                if (item.SellIn < 6)
+                if (item.SellIn < 0)
                 {
                     if (item.Quality < 50)
                     {
@@ -119,28 +90,56 @@ namespace GildedRose.Console
                 }
             }
 
-            item.SellIn--;
-
-            if (item.SellIn < 0)
+            public static void UpdateSulfurasItemQuality(Item item)
             {
-                item.Quality = 0;
-            }
-        }
-
-        private static void UpdateStandardItemQuality(Item item)
-        {
-            if (item.Quality > 0)
-            {
-                item.Quality--;
             }
 
-            item.SellIn--;
+            public static void UpdateBackstagePassesItemQuality(Item item)
+            {
+                if (item.Quality < 50)
+                {
+                    item.Quality++;
 
-            if (item.SellIn < 0)
+                    if (item.SellIn < 11)
+                    {
+                        if (item.Quality < 50)
+                        {
+                            item.Quality++;
+                        }
+                    }
+
+                    if (item.SellIn < 6)
+                    {
+                        if (item.Quality < 50)
+                        {
+                            item.Quality++;
+                        }
+                    }
+                }
+
+                item.SellIn--;
+
+                if (item.SellIn < 0)
+                {
+                    item.Quality = 0;
+                }
+            }
+
+            public static void UpdateStandardItemQuality(Item item)
             {
                 if (item.Quality > 0)
                 {
                     item.Quality--;
+                }
+
+                item.SellIn--;
+
+                if (item.SellIn < 0)
+                {
+                    if (item.Quality > 0)
+                    {
+                        item.Quality--;
+                    }
                 }
             }
         }
