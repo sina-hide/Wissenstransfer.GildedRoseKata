@@ -50,12 +50,14 @@ namespace GildedRose.Console
 
         private static void UpdateItemQuality(Item item)
         {
-            if (item.Name != AgedBrie &&
-                item.Name != BackstagePasses)
+            var name = item.Name;
+
+            if (name != AgedBrie &&
+                name != BackstagePasses)
             {
                 if (item.Quality > 0)
                 {
-                    if (item.Name != Sulfuras)
+                    if (name != Sulfuras)
                     {
                         item.Quality = item.Quality - 1;
                     }
@@ -67,7 +69,7 @@ namespace GildedRose.Console
                 {
                     item.Quality = item.Quality + 1;
 
-                    if (item.Name == BackstagePasses)
+                    if (name == BackstagePasses)
                     {
                         if (item.SellIn < 11)
                         {
@@ -88,20 +90,20 @@ namespace GildedRose.Console
                 }
             }
 
-            if (item.Name != Sulfuras)
+            if (name != Sulfuras)
             {
                 item.SellIn = item.SellIn - 1;
             }
 
             if (item.SellIn < 0)
             {
-                if (item.Name != AgedBrie)
+                if (name != AgedBrie)
                 {
-                    if (item.Name != BackstagePasses)
+                    if (name != BackstagePasses)
                     {
                         if (item.Quality > 0)
                         {
-                            if (item.Name != Sulfuras)
+                            if (name != Sulfuras)
                             {
                                 item.Quality = item.Quality - 1;
                             }
