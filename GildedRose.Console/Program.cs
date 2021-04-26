@@ -2,8 +2,13 @@ using System.Collections.Generic;
 
 namespace GildedRose.Console
 {
-    class Program
+    public class Program
     {
+        public Program(params Item[] items)
+        {
+            Items = items;
+        }
+
         IList<Item> Items; // Don't change this field!
         static void Main(string[] args)
         {
