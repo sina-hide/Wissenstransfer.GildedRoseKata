@@ -70,6 +70,10 @@ namespace GildedRose.Console
             }
         }
 
+        private class Updater
+        {
+        }
+
         private static void UpdateAgedBrieItemQuality(Item item)
         {
             if (item.Quality < 50)
