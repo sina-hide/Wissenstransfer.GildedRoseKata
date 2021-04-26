@@ -50,24 +50,28 @@ namespace GildedRose.Console
 
         private static void UpdateItemQuality(Item item)
         {
+            Updater updater;
+
             switch (item.Name)
             {
                 case AgedBrie:
-                    new AgedBrieUpdater().UpdateItemQuality(item);
+                    updater = new AgedBrieUpdater();
                     break;
 
                 case Sulfuras:
-                    new SulfurasUpdater().UpdateItemQuality(item);
+                    updater = new SulfurasUpdater();
                     break;
 
                 case BackstagePasses:
-                    new BackstagePassesUpdater().UpdateItemQuality(item);
+                    updater = new BackstagePassesUpdater();
                     break;
 
                 default:
-                    new StandardUpdater().UpdateItemQuality(item);
+                    updater = new StandardUpdater();
                     break;
             }
+
+            updater.UpdateItemQuality(item);
         }
 
         private abstract class Updater
