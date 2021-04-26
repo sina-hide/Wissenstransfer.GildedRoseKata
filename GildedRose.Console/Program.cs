@@ -70,13 +70,14 @@ namespace GildedRose.Console
             }
         }
 
-        private class Updater
+        private abstract class Updater
         {
+            public abstract void UpdateItemQuality(Item item);
         }
 
         private class AgedBrieUpdater : Updater
         {
-            public void UpdateItemQuality(Item item)
+            public override void UpdateItemQuality(Item item)
             {
                 if (item.Quality < 50)
                 {
@@ -97,14 +98,14 @@ namespace GildedRose.Console
 
         private class SulfurasUpdater : Updater
         {
-            public void UpdateItemQuality(Item item)
+            public override void UpdateItemQuality(Item item)
             {
             }
         }
 
         private class BackstagePassesUpdater : Updater
         {
-            public void UpdateItemQuality(Item item)
+            public override void UpdateItemQuality(Item item)
             {
                 if (item.Quality < 50)
                 {
@@ -138,7 +139,7 @@ namespace GildedRose.Console
 
         private class StandardUpdater : Updater
         {
-            public void UpdateItemQuality(Item item)
+            public override void UpdateItemQuality(Item item)
             {
                 if (item.Quality > 0)
                 {
