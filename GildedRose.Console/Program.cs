@@ -67,7 +67,7 @@ namespace GildedRose.Console
 
         private static void UpdateAgedBrieItemQuality(Item item)
         {
-            var name = item.Name;
+            var name = AgedBrie;
 
             if (name != AgedBrie &&
                 name != BackstagePasses)
@@ -143,7 +143,7 @@ namespace GildedRose.Console
 
         private static void UpdateSulfurasItemQuality(Item item)
         {
-            var name = item.Name;
+            var name = Sulfuras;
 
             if (name != AgedBrie &&
                 name != BackstagePasses)
@@ -219,7 +219,7 @@ namespace GildedRose.Console
 
         private static void UpdateBackstagePassesItemQuality(Item item)
         {
-            var name = item.Name;
+            var name = BackstagePasses;
 
             if (name != AgedBrie &&
                 name != BackstagePasses)
@@ -295,7 +295,7 @@ namespace GildedRose.Console
 
         private static void UpdateStandardItemQuality(Item item)
         {
-            var name = item.Name;
+            var name = "";
 
             if (name != AgedBrie &&
                 name != BackstagePasses)
