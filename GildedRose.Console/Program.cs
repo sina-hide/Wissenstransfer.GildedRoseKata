@@ -50,6 +50,12 @@ namespace GildedRose.Console
 
         private static void UpdateItemQuality(Item item)
         {
+            var updater = SelectUpdater(item);
+            updater.UpdateItemQuality(item);
+        }
+
+        private static Updater SelectUpdater(Item item)
+        {
             Updater updater;
 
             switch (item.Name)
@@ -71,7 +77,7 @@ namespace GildedRose.Console
                     break;
             }
 
-            updater.UpdateItemQuality(item);
+            return updater;
         }
 
         private abstract class Updater
