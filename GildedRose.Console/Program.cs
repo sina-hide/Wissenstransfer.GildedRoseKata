@@ -86,6 +86,7 @@ namespace GildedRose.Console
             public abstract void UpdateItemQuality(Item item);
         }
 
+        [Updater]
         private class AgedBrieUpdater : Updater
         {
             public override bool CanHandle(string name) => name == AgedBrie;
@@ -109,6 +110,7 @@ namespace GildedRose.Console
             }
         }
 
+        [Updater]
         private class SulfurasUpdater : Updater
         {
             public override bool CanHandle(string name) => name == Sulfuras;
@@ -118,6 +120,7 @@ namespace GildedRose.Console
             }
         }
 
+        [Updater]
         private class BackstagePassesUpdater : Updater
         {
             public override bool CanHandle(string name) => name == BackstagePasses;
@@ -154,6 +157,7 @@ namespace GildedRose.Console
             }
         }
 
+        [Updater(IsDefault = true)]
         private class StandardUpdater : Updater
         {
             public override bool CanHandle(string name) => true;
