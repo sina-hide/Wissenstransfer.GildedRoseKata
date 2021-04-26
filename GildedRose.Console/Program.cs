@@ -47,22 +47,42 @@ namespace GildedRose.Console
                 switch (item.Name)
                 {
                     case AgedBrie:
-                        UpdateItemQuality(item);
+                        UpdateAgedBrieItemQuality(item);
                         break;
 
                     case Sulfuras:
-                        UpdateItemQuality(item);
+                        UpdateSulfurasItemQuality(item);
                         break;
 
                     case BackstagePasses:
-                        UpdateItemQuality(item);
+                        UpdateBackstagePassesItemQuality(item);
                         break;
 
                     default:
-                        UpdateItemQuality(item);
+                        UpdateStandardItemQuality(item);
                         break;
                 }
             }
+        }
+
+        private static void UpdateAgedBrieItemQuality(Item item)
+        {
+            UpdateItemQuality(item);
+        }
+
+        private static void UpdateSulfurasItemQuality(Item item)
+        {
+            UpdateItemQuality(item);
+        }
+
+        private static void UpdateBackstagePassesItemQuality(Item item)
+        {
+            UpdateItemQuality(item);
+        }
+
+        private static void UpdateStandardItemQuality(Item item)
+        {
+            UpdateItemQuality(item);
         }
 
         private static void UpdateItemQuality(Item item)
