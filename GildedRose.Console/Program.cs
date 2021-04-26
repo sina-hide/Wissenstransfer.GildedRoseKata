@@ -56,28 +56,20 @@ namespace GildedRose.Console
 
         private static Updater SelectUpdater(Item item)
         {
-            Updater updater;
-
             switch (item.Name)
             {
                 case AgedBrie:
-                    updater = new AgedBrieUpdater();
-                    break;
+                    return new AgedBrieUpdater();
 
                 case Sulfuras:
-                    updater = new SulfurasUpdater();
-                    break;
+                    return new SulfurasUpdater();
 
                 case BackstagePasses:
-                    updater = new BackstagePassesUpdater();
-                    break;
+                    return new BackstagePassesUpdater();
 
                 default:
-                    updater = new StandardUpdater();
-                    break;
+                    return new StandardUpdater();
             }
-
-            return updater;
         }
 
         private abstract class Updater
