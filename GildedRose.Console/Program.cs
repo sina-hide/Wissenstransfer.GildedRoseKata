@@ -53,19 +53,19 @@ namespace GildedRose.Console
             switch (item.Name)
             {
                 case AgedBrie:
-                    new Updater().UpdateAgedBrieItemQuality(item);
+                    new AgedBrieUpdater().UpdateItemQuality(item);
                     break;
 
                 case Sulfuras:
-                    new Updater().UpdateSulfurasItemQuality(item);
+                    new SulfurasUpdater().UpdateItemQuality(item);
                     break;
 
                 case BackstagePasses:
-                    new Updater().UpdateBackstagePassesItemQuality(item);
+                    new BackstagePassesUpdater().UpdateItemQuality(item);
                     break;
 
                 default:
-                    new Updater().UpdateStandardItemQuality(item);
+                    new StandardUpdater().UpdateItemQuality(item);
                     break;
             }
         }
