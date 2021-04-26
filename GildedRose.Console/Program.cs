@@ -50,63 +50,45 @@ namespace GildedRose.Console
 
         private static void UpdateItemQuality(Item item)
         {
+            var updater = SelectUpdater(item);
+            updater.UpdateItemQuality(item);
+        }
+
+        private static Updater SelectUpdater(Item item)
+        {
             switch (item.Name)
             {
                 case AgedBrie:
-                    UpdateAgedBrieItemQuality(item);
-                    break;
+                    return new AgedBrieUpdater();
 
                 case Sulfuras:
-                    UpdateSulfurasItemQuality(item);
-                    break;
+                    return new SulfurasUpdater();
 
                 case BackstagePasses:
-                    UpdateBackstagePassesItemQuality(item);
-                    break;
+                    return new BackstagePassesUpdater();
 
                 default:
-                    UpdateStandardItemQuality(item);
-                    break;
+                    return new StandardUpdater();
             }
         }
 
-        private static void UpdateAgedBrieItemQuality(Item item)
+        private abstract class Updater
         {
-            if (item.Quality < 50)
-            {
-                item.Quality++;
-            }
+            public abstract void UpdateItemQuality(Item item);
+        }
 
-            item.SellIn--;
-
-            if (item.SellIn < 0)
+        private class AgedBrieUpdater : Updater
+        {
+            public override void UpdateItemQuality(Item item)
             {
                 if (item.Quality < 50)
                 {
                     item.Quality++;
                 }
-            }
-        }
 
-        private static void UpdateSulfurasItemQuality(Item item)
-        {
-        }
+                item.SellIn--;
 
-        private static void UpdateBackstagePassesItemQuality(Item item)
-        {
-            if (item.Quality < 50)
-            {
-                item.Quality++;
-
-                if (item.SellIn < 11)
-                {
-                    if (item.Quality < 50)
-                    {
-                        item.Quality++;
-                    }
-                }
-
-                if (item.SellIn < 6)
+                if (item.SellIn < 0)
                 {
                     if (item.Quality < 50)
                     {
@@ -114,29 +96,66 @@ namespace GildedRose.Console
                     }
                 }
             }
+        }
 
-            item.SellIn--;
-
-            if (item.SellIn < 0)
+        private class SulfurasUpdater : Updater
+        {
+            public override void UpdateItemQuality(Item item)
             {
-                item.Quality = 0;
             }
         }
 
-        private static void UpdateStandardItemQuality(Item item)
+        private class BackstagePassesUpdater : Updater
         {
-            if (item.Quality > 0)
+            public override void UpdateItemQuality(Item item)
             {
-                item.Quality--;
+                if (item.Quality < 50)
+                {
+                    item.Quality++;
+
+                    if (item.SellIn < 11)
+                    {
+                        if (item.Quality < 50)
+                        {
+                            item.Quality++;
+                        }
+                    }
+
+                    if (item.SellIn < 6)
+                    {
+                        if (item.Quality < 50)
+                        {
+                            item.Quality++;
+                        }
+                    }
+                }
+
+                item.SellIn--;
+
+                if (item.SellIn < 0)
+                {
+                    item.Quality = 0;
+                }
             }
+        }
 
-            item.SellIn--;
-
-            if (item.SellIn < 0)
+        private class StandardUpdater : Updater
+        {
+            public override void UpdateItemQuality(Item item)
             {
                 if (item.Quality > 0)
                 {
                     item.Quality--;
+                }
+
+                item.SellIn--;
+
+                if (item.SellIn < 0)
+                {
+                    if (item.Quality > 0)
+                    {
+                        item.Quality--;
+                    }
                 }
             }
         }
