@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace GildedRose.Console
@@ -70,6 +71,12 @@ namespace GildedRose.Console
                 default:
                     return new StandardUpdater();
             }
+        }
+
+        [AttributeUsage(AttributeTargets.Class)]
+        public class UpdaterAttribute : Attribute
+        {
+            public bool IsDefault { get; set; } = false;
         }
 
         private abstract class Updater
