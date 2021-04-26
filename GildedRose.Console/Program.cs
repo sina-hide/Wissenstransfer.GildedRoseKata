@@ -67,14 +67,12 @@ namespace GildedRose.Console
 
         private static void UpdateAgedBrieItemQuality(Item item)
         {
-            var name = AgedBrie;
-
-            if (name != AgedBrie &&
-                name != BackstagePasses)
+            if (AgedBrie != AgedBrie &&
+                AgedBrie != BackstagePasses)
             {
                 if (item.Quality > 0)
                 {
-                    if (name != Sulfuras)
+                    if (AgedBrie != Sulfuras)
                     {
                         item.Quality--;
                     }
@@ -86,7 +84,7 @@ namespace GildedRose.Console
                 {
                     item.Quality++;
 
-                    if (name == BackstagePasses)
+                    if (AgedBrie == BackstagePasses)
                     {
                         if (item.SellIn < 11)
                         {
@@ -107,20 +105,20 @@ namespace GildedRose.Console
                 }
             }
 
-            if (name != Sulfuras)
+            if (AgedBrie != Sulfuras)
             {
                 item.SellIn--;
             }
 
             if (item.SellIn < 0)
             {
-                if (name != AgedBrie)
+                if (AgedBrie != AgedBrie)
                 {
-                    if (name != BackstagePasses)
+                    if (AgedBrie != BackstagePasses)
                     {
                         if (item.Quality > 0)
                         {
-                            if (name != Sulfuras)
+                            if (AgedBrie != Sulfuras)
                             {
                                 item.Quality--;
                             }
@@ -143,14 +141,12 @@ namespace GildedRose.Console
 
         private static void UpdateSulfurasItemQuality(Item item)
         {
-            var name = Sulfuras;
-
-            if (name != AgedBrie &&
-                name != BackstagePasses)
+            if (Sulfuras != AgedBrie &&
+                Sulfuras != BackstagePasses)
             {
                 if (item.Quality > 0)
                 {
-                    if (name != Sulfuras)
+                    if (Sulfuras != Sulfuras)
                     {
                         item.Quality--;
                     }
@@ -162,7 +158,7 @@ namespace GildedRose.Console
                 {
                     item.Quality++;
 
-                    if (name == BackstagePasses)
+                    if (Sulfuras == BackstagePasses)
                     {
                         if (item.SellIn < 11)
                         {
@@ -183,20 +179,20 @@ namespace GildedRose.Console
                 }
             }
 
-            if (name != Sulfuras)
+            if (Sulfuras != Sulfuras)
             {
                 item.SellIn--;
             }
 
             if (item.SellIn < 0)
             {
-                if (name != AgedBrie)
+                if (Sulfuras != AgedBrie)
                 {
-                    if (name != BackstagePasses)
+                    if (Sulfuras != BackstagePasses)
                     {
                         if (item.Quality > 0)
                         {
-                            if (name != Sulfuras)
+                            if (Sulfuras != Sulfuras)
                             {
                                 item.Quality--;
                             }
@@ -219,14 +215,12 @@ namespace GildedRose.Console
 
         private static void UpdateBackstagePassesItemQuality(Item item)
         {
-            var name = BackstagePasses;
-
-            if (name != AgedBrie &&
-                name != BackstagePasses)
+            if (BackstagePasses != AgedBrie &&
+                BackstagePasses != BackstagePasses)
             {
                 if (item.Quality > 0)
                 {
-                    if (name != Sulfuras)
+                    if (BackstagePasses != Sulfuras)
                     {
                         item.Quality--;
                     }
@@ -238,7 +232,7 @@ namespace GildedRose.Console
                 {
                     item.Quality++;
 
-                    if (name == BackstagePasses)
+                    if (BackstagePasses == BackstagePasses)
                     {
                         if (item.SellIn < 11)
                         {
@@ -259,20 +253,20 @@ namespace GildedRose.Console
                 }
             }
 
-            if (name != Sulfuras)
+            if (BackstagePasses != Sulfuras)
             {
                 item.SellIn--;
             }
 
             if (item.SellIn < 0)
             {
-                if (name != AgedBrie)
+                if (BackstagePasses != AgedBrie)
                 {
-                    if (name != BackstagePasses)
+                    if (BackstagePasses != BackstagePasses)
                     {
                         if (item.Quality > 0)
                         {
-                            if (name != Sulfuras)
+                            if (BackstagePasses != Sulfuras)
                             {
                                 item.Quality--;
                             }
@@ -295,14 +289,12 @@ namespace GildedRose.Console
 
         private static void UpdateStandardItemQuality(Item item)
         {
-            var name = "";
-
-            if (name != AgedBrie &&
-                name != BackstagePasses)
+            if ("" != AgedBrie &&
+                "" != BackstagePasses)
             {
                 if (item.Quality > 0)
                 {
-                    if (name != Sulfuras)
+                    if ("" != Sulfuras)
                     {
                         item.Quality--;
                     }
@@ -314,7 +306,7 @@ namespace GildedRose.Console
                 {
                     item.Quality++;
 
-                    if (name == BackstagePasses)
+                    if ("" == BackstagePasses)
                     {
                         if (item.SellIn < 11)
                         {
@@ -335,20 +327,20 @@ namespace GildedRose.Console
                 }
             }
 
-            if (name != Sulfuras)
+            if ("" != Sulfuras)
             {
                 item.SellIn--;
             }
 
             if (item.SellIn < 0)
             {
-                if (name != AgedBrie)
+                if ("" != AgedBrie)
                 {
-                    if (name != BackstagePasses)
+                    if ("" != BackstagePasses)
                     {
                         if (item.Quality > 0)
                         {
-                            if (name != Sulfuras)
+                            if ("" != Sulfuras)
                             {
                                 item.Quality--;
                             }
