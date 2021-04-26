@@ -143,6 +143,22 @@ namespace GildedRose.Console
                 }
             }
         }
+
+        private class AgedBrieUpdater : Updater
+        {
+        }
+
+        private class SulfurasUpdater : Updater
+        {
+        }
+
+        private class BackstagePassesUpdater : Updater
+        {
+        }
+
+        private class StandardUpdater : Updater
+        {
+        }
     }
 
     public class Item // Don't change this class!
