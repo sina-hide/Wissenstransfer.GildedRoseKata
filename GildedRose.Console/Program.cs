@@ -72,6 +72,10 @@ namespace GildedRose.Console
 
         private class Updater
         {
+        }
+
+        private class AgedBrieUpdater : Updater
+        {
             public void UpdateAgedBrieItemQuality(Item item)
             {
                 if (item.Quality < 50)
@@ -89,11 +93,17 @@ namespace GildedRose.Console
                     }
                 }
             }
+        }
 
+        private class SulfurasUpdater : Updater
+        {
             public void UpdateSulfurasItemQuality(Item item)
             {
             }
+        }
 
+        private class BackstagePassesUpdater : Updater
+        {
             public void UpdateBackstagePassesItemQuality(Item item)
             {
                 if (item.Quality < 50)
@@ -124,7 +134,10 @@ namespace GildedRose.Console
                     item.Quality = 0;
                 }
             }
+        }
 
+        private class StandardUpdater : Updater
+        {
             public void UpdateStandardItemQuality(Item item)
             {
                 if (item.Quality > 0)
@@ -142,22 +155,6 @@ namespace GildedRose.Console
                     }
                 }
             }
-        }
-
-        private class AgedBrieUpdater : Updater
-        {
-        }
-
-        private class SulfurasUpdater : Updater
-        {
-        }
-
-        private class BackstagePassesUpdater : Updater
-        {
-        }
-
-        private class StandardUpdater : Updater
-        {
         }
     }
 
