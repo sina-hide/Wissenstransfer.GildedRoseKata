@@ -44,24 +44,29 @@ namespace GildedRose.Console
         {
             foreach (var item in Items)
             {
-                switch (item.Name)
-                {
-                    case AgedBrie:
-                        UpdateAgedBrieItemQuality(item);
-                        break;
+                UpdateItemQuality(item);
+            }
+        }
 
-                    case Sulfuras:
-                        UpdateSulfurasItemQuality(item);
-                        break;
+        private static void UpdateItemQuality(Item item)
+        {
+            switch (item.Name)
+            {
+                case AgedBrie:
+                    UpdateAgedBrieItemQuality(item);
+                    break;
 
-                    case BackstagePasses:
-                        UpdateBackstagePassesItemQuality(item);
-                        break;
+                case Sulfuras:
+                    UpdateSulfurasItemQuality(item);
+                    break;
 
-                    default:
-                        UpdateStandardItemQuality(item);
-                        break;
-                }
+                case BackstagePasses:
+                    UpdateBackstagePassesItemQuality(item);
+                    break;
+
+                default:
+                    UpdateStandardItemQuality(item);
+                    break;
             }
         }
 
