@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace GildedRose.Console
 {
@@ -72,6 +74,13 @@ namespace GildedRose.Console
                     return new StandardUpdater();
             }
         }
+
+        private static IEnumerable<Updater> CreateUpdaters() =>
+            from type in Assembly.GetExecutingAssembly().GetTypes()
+            let updaterAttribute = type.GetCustomAttribute<UpdaterAttribute>()
+            where updaterAttribute != null
+            orderby updaterAttribute.IsDefault
+            select (Updater)Activator.CreateInstance(type);
 
         [AttributeUsage(AttributeTargets.Class)]
         public class UpdaterAttribute : Attribute
