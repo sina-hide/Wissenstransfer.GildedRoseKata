@@ -57,23 +57,8 @@ namespace GildedRose.Console
             updater.UpdateItemQuality(item);
         }
 
-        private static Updater SelectUpdater(Item item)
-        {
-            switch (item.Name)
-            {
-                case AgedBrie:
-                    return new AgedBrieUpdater();
-
-                case Sulfuras:
-                    return new SulfurasUpdater();
-
-                case BackstagePasses:
-                    return new BackstagePassesUpdater();
-
-                default:
-                    return new StandardUpdater();
-            }
-        }
+        private static Updater SelectUpdater(Item item) =>
+            CreateUpdaters().First(updater => updater.CanHandle(item.Name));
 
         private static IEnumerable<Updater> CreateUpdaters() =>
             from type in Assembly.GetExecutingAssembly().GetTypes()
