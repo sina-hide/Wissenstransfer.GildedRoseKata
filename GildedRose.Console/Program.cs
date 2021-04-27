@@ -47,22 +47,11 @@ namespace GildedRose.Console
         {
             foreach (var item in Items)
             {
-                UpdateItemQuality(item);
+                item.Update();
             }
         }
 
-        private static void UpdateItemQuality(Item item)
-        {
-            var agingStrategy = SelectAgingStrategy(item);
-
-            var qualityChange = agingStrategy.GetQualityChange(item.SellIn, item.Quality);
-            AgingStrategy.ChangeQualityBy(item, qualityChange);
-
-            if (agingStrategy.IsAging)
-                AgingStrategy.DecrementSellIn(item);
-        }
-
-        private static AgingStrategy SelectAgingStrategy(Item item) =>
+        public static AgingStrategy SelectAgingStrategy(Item item) =>
             CreateAgingStrategies()
                 .First(strategy => strategy.CanHandle(item.Name));
 
@@ -79,49 +68,13 @@ namespace GildedRose.Console
             public bool IsDefault { get; set; } = false;
         }
 
-        private abstract class AgingStrategy
+        public abstract class AgingStrategy
         {
             public abstract bool CanHandle(string name);
 
             public abstract int GetQualityChange(int sellIn, int quality);
 
             public abstract bool IsAging { get; }
-
-            public static void DecrementSellIn(Item item)
-            {
-                item.SellIn--;
-            }
-
-            private static void IncrementQuality(Item item, int count)
-            {
-                var remaining = count;
-                while (remaining > 0 && item.Quality < 50)
-                {
-                    item.Quality++;
-                    remaining--;
-                }
-            }
-
-            private static void DecrementQuality(Item item, int count)
-            {
-                var remaining = count;
-                while (remaining > 0 && item.Quality > 0)
-                {
-                    item.Quality--;
-                    remaining--;
-                }
-            }
-
-            public static void ChangeQualityBy(Item item, int qualityChange)
-            {
-                if (qualityChange == 0)
-                    return;
-
-                if (qualityChange > 0)
-                    IncrementQuality(item, qualityChange);
-                else
-                    DecrementQuality(item, -qualityChange);
-            }
         }
 
         [AgingStrategy]
@@ -178,5 +131,55 @@ namespace GildedRose.Console
         public int SellIn { get; set; }
 
         public int Quality { get; set; }
+    }
+
+    public static class ItemExtensions
+    {
+        public static void Update(this Item item)
+        {
+            var agingStrategy = Program.SelectAgingStrategy(item);
+
+            var qualityChange = agingStrategy.GetQualityChange(item.SellIn, item.Quality);
+            item.ChangeQualityBy(qualityChange);
+
+            if (agingStrategy.IsAging)
+                item.DecrementSellIn();
+        }
+
+        private static void DecrementSellIn(this Item item)
+        {
+            item.SellIn--;
+        }
+
+        private static void ChangeQualityBy(this Item item, int qualityChange)
+        {
+            if (qualityChange == 0)
+                return;
+
+            if (qualityChange > 0)
+                item.IncrementQuality(qualityChange);
+            else
+                item.DecrementQuality(-qualityChange);
+        }
+
+        private static void IncrementQuality(this Item item, int count)
+        {
+            var remaining = count;
+            while (remaining > 0 && item.Quality < 50)
+            {
+                item.Quality++;
+                remaining--;
+            }
+        }
+
+        private static void DecrementQuality(this Item item, int count)
+        {
+            var remaining = count;
+            while (remaining > 0 && item.Quality > 0)
+            {
+                item.Quality--;
+                remaining--;
+            }
+        }
     }
 }
