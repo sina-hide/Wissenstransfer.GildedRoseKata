@@ -111,6 +111,7 @@ namespace GildedRose.Console
 
             public override void UpdateItemQuality(Item item)
             {
+                // Sulfuras' quality and its sellIn never change.
             }
         }
 
