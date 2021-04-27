@@ -40,64 +40,6 @@ namespace GildedRose.Console
                 item.Update();
             }
         }
-
-        public abstract class AgingStrategy
-        {
-            public abstract bool CanHandle(string name);
-
-            public abstract int GetQualityChange(int sellIn, int quality);
-
-            public abstract bool IsAging { get; }
-
-            protected static int GetStandardQualityChange(int sellIn) =>
-                sellIn <= 0 ? -2 : -1;
-        }
-
-        [AgingStrategy]
-        private class AgedBrieAgingStrategy : AgingStrategy
-        {
-            public override bool CanHandle(string name) => name == ItemName.AgedBrie;
-
-            public override int GetQualityChange(int sellIn, int quality) =>
-                -GetStandardQualityChange(sellIn);
-
-            public override bool IsAging => true;
-        }
-
-        [AgingStrategy]
-        private class SulfurasAgingStrategy : AgingStrategy
-        {
-            public override bool CanHandle(string name) => name == ItemName.Sulfuras;
-
-            public override int GetQualityChange(int sellIn, int quality) => 0;
-
-            public override bool IsAging => false;
-        }
-
-        [AgingStrategy]
-        private class BackstagePassesAgingStrategy : AgingStrategy
-        {
-            public override bool CanHandle(string name) => name == ItemName.BackstagePasses;
-
-            public override int GetQualityChange(int sellIn, int quality) =>
-                sellIn <= 0 ? -quality :
-                sellIn <= 5 ? 3 :
-                sellIn <= 10 ? 2 :
-                1;
-
-            public override bool IsAging => true;
-        }
-
-        [AgingStrategy(IsDefault = true)]
-        private class StandardAgingStrategy : AgingStrategy
-        {
-            public override bool CanHandle(string name) => true;
-
-            public override int GetQualityChange(int sellIn, int quality) =>
-                GetStandardQualityChange(sellIn);
-
-            public override bool IsAging => true;
-        }
     }
 
     public class Item // Don't change this class!
