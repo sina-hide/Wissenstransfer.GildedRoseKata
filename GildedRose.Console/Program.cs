@@ -78,6 +78,27 @@ namespace GildedRose.Console
             public abstract bool CanHandle(string name);
 
             public abstract void UpdateItemQuality(Item item);
+
+            protected static void DecrementSellIn(Item item)
+            {
+                item.SellIn--;
+            }
+
+            protected static void IncrementQuality(Item item)
+            {
+                if (item.Quality < 50)
+                {
+                    item.Quality++;
+                }
+            }
+
+            protected static void DecrementQuality(Item item)
+            {
+                if (item.Quality > 0)
+                {
+                    item.Quality--;
+                }
+            }
         }
 
         [Updater]
@@ -87,20 +108,14 @@ namespace GildedRose.Console
 
             public override void UpdateItemQuality(Item item)
             {
-                if (item.Quality < 50)
+                IncrementQuality(item);
+
+                if (item.SellIn <= 0)
                 {
-                    item.Quality++;
+                    IncrementQuality(item);
                 }
 
-                item.SellIn--;
-
-                if (item.SellIn < 0)
-                {
-                    if (item.Quality < 50)
-                    {
-                        item.Quality++;
-                    }
-                }
+                DecrementSellIn(item);
             }
         }
 
@@ -111,6 +126,7 @@ namespace GildedRose.Console
 
             public override void UpdateItemQuality(Item item)
             {
+                // Sulfuras' quality and its sellIn never change.
             }
         }
 
@@ -121,33 +137,24 @@ namespace GildedRose.Console
 
             public override void UpdateItemQuality(Item item)
             {
-                if (item.Quality < 50)
+                IncrementQuality(item);
+
+                if (item.SellIn < 11)
                 {
-                    item.Quality++;
-
-                    if (item.SellIn < 11)
-                    {
-                        if (item.Quality < 50)
-                        {
-                            item.Quality++;
-                        }
-                    }
-
-                    if (item.SellIn < 6)
-                    {
-                        if (item.Quality < 50)
-                        {
-                            item.Quality++;
-                        }
-                    }
+                    IncrementQuality(item);
                 }
 
-                item.SellIn--;
+                if (item.SellIn < 6)
+                {
+                    IncrementQuality(item);
+                }
 
-                if (item.SellIn < 0)
+                if (item.SellIn <= 0)
                 {
                     item.Quality = 0;
                 }
+
+                DecrementSellIn(item);
             }
         }
 
@@ -158,20 +165,14 @@ namespace GildedRose.Console
 
             public override void UpdateItemQuality(Item item)
             {
-                if (item.Quality > 0)
+                DecrementQuality(item);
+
+                if (item.SellIn <= 0)
                 {
-                    item.Quality--;
+                    DecrementQuality(item);
                 }
 
-                item.SellIn--;
-
-                if (item.SellIn < 0)
-                {
-                    if (item.Quality > 0)
-                    {
-                        item.Quality--;
-                    }
-                }
+                DecrementSellIn(item);
             }
         }
     }
