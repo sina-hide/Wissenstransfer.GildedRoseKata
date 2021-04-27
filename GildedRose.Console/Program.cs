@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace GildedRose.Console
 {
@@ -42,23 +39,6 @@ namespace GildedRose.Console
             {
                 item.Update();
             }
-        }
-
-        public static AgingStrategy SelectAgingStrategy(Item item) =>
-            CreateAgingStrategies()
-                .First(strategy => strategy.CanHandle(item.Name));
-
-        private static IEnumerable<AgingStrategy> CreateAgingStrategies() =>
-            from type in Assembly.GetExecutingAssembly().GetTypes()
-            let attribute = type.GetCustomAttribute<AgingStrategyAttribute>()
-            where attribute != null
-            orderby attribute.IsDefault
-            select (AgingStrategy)Activator.CreateInstance(type);
-
-        [AttributeUsage(AttributeTargets.Class)]
-        public class AgingStrategyAttribute : Attribute
-        {
-            public bool IsDefault { get; set; } = false;
         }
 
         public abstract class AgingStrategy
@@ -133,7 +113,7 @@ namespace GildedRose.Console
     {
         public static void Update(this Item item)
         {
-            var agingStrategy = Program.SelectAgingStrategy(item);
+            var agingStrategy = AgingStrategySelector.SelectAgingStrategy(item);
 
             var qualityChange = agingStrategy.GetQualityChange(item.SellIn, item.Quality);
             item.ChangeQualityBy(qualityChange);
