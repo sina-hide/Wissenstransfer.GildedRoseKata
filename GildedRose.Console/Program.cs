@@ -54,7 +54,9 @@ namespace GildedRose.Console
         private static void UpdateItemQuality(Item item)
         {
             var agingStrategy = SelectAgingStrategy(item);
-            agingStrategy.UpdateItemQuality(item);
+
+            var qualityChange = agingStrategy.GetQualityChange(item.SellIn, item.Quality);
+            AgingStrategy.ChangeQualityBy(item, qualityChange);
 
             if (agingStrategy.IsAging)
                 AgingStrategy.DecrementSellIn(item);
@@ -81,7 +83,7 @@ namespace GildedRose.Console
         {
             public abstract bool CanHandle(string name);
 
-            public abstract void UpdateItemQuality(Item item);
+            public abstract int GetQualityChange(int sellIn, int quality);
 
             public abstract bool IsAging { get; }
 
@@ -90,20 +92,35 @@ namespace GildedRose.Console
                 item.SellIn--;
             }
 
-            protected static void IncrementQuality(Item item)
+            private static void IncrementQuality(Item item, int count)
             {
-                if (item.Quality < 50)
+                var remaining = count;
+                while (remaining > 0 && item.Quality < 50)
                 {
                     item.Quality++;
+                    remaining--;
                 }
             }
 
-            protected static void DecrementQuality(Item item)
+            private static void DecrementQuality(Item item, int count)
             {
-                if (item.Quality > 0)
+                var remaining = count;
+                while (remaining > 0 && item.Quality > 0)
                 {
                     item.Quality--;
+                    remaining--;
                 }
+            }
+
+            public static void ChangeQualityBy(Item item, int qualityChange)
+            {
+                if (qualityChange == 0)
+                    return;
+
+                if (qualityChange > 0)
+                    IncrementQuality(item, qualityChange);
+                else
+                    DecrementQuality(item, -qualityChange);
             }
         }
 
@@ -112,17 +129,10 @@ namespace GildedRose.Console
         {
             public override bool CanHandle(string name) => name == AgedBrie;
 
+            public override int GetQualityChange(int sellIn, int quality) =>
+                sellIn <= 0 ? 2 : 1;
+
             public override bool IsAging => true;
-
-            public override void UpdateItemQuality(Item item)
-            {
-                IncrementQuality(item);
-
-                if (item.SellIn <= 0)
-                {
-                    IncrementQuality(item);
-                }
-            }
         }
 
         [AgingStrategy]
@@ -130,10 +140,7 @@ namespace GildedRose.Console
         {
             public override bool CanHandle(string name) => name == Sulfuras;
 
-            public override void UpdateItemQuality(Item item)
-            {
-                // Sulfuras' quality and its sellIn never change.
-            }
+            public override int GetQualityChange(int sellIn, int quality) => 0;
 
             public override bool IsAging => false;
         }
@@ -143,25 +150,11 @@ namespace GildedRose.Console
         {
             public override bool CanHandle(string name) => name == BackstagePasses;
 
-            public override void UpdateItemQuality(Item item)
-            {
-                IncrementQuality(item);
-
-                if (item.SellIn < 11)
-                {
-                    IncrementQuality(item);
-                }
-
-                if (item.SellIn < 6)
-                {
-                    IncrementQuality(item);
-                }
-
-                if (item.SellIn <= 0)
-                {
-                    item.Quality = 0;
-                }
-            }
+            public override int GetQualityChange(int sellIn, int quality) =>
+                sellIn <= 0 ? -quality :
+                sellIn <= 5 ? 3 :
+                sellIn <= 10 ? 2 :
+                1;
 
             public override bool IsAging => true;
         }
@@ -171,15 +164,8 @@ namespace GildedRose.Console
         {
             public override bool CanHandle(string name) => true;
 
-            public override void UpdateItemQuality(Item item)
-            {
-                DecrementQuality(item);
-
-                if (item.SellIn <= 0)
-                {
-                    DecrementQuality(item);
-                }
-            }
+            public override int GetQualityChange(int sellIn, int quality) =>
+                sellIn <= 0 ? -2 : -1;
 
             public override bool IsAging => true;
         }
