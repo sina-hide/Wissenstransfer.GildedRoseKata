@@ -7,13 +7,6 @@ namespace GildedRose.Console
 {
     public class Program
     {
-        private const string DexterityVest = "+5 Dexterity Vest";
-        private const string AgedBrie = "Aged Brie";
-        private const string ElixirOfTheMongoose = "Elixir of the Mongoose";
-        private const string Sulfuras = "Sulfuras, Hand of Ragnaros";
-        private const string BackstagePasses = "Backstage passes to a TAFKAL80ETC concert";
-        private const string ConjuredManaCake = "Conjured Mana Cake";
-
         public Program(params Item[] items)
         {
             Items = items;
@@ -29,12 +22,12 @@ namespace GildedRose.Console
             {
                 Items = new List<Item>
                 {
-                    new Item { Name = DexterityVest, SellIn = 10, Quality = 20 },
-                    new Item { Name = AgedBrie, SellIn = 2, Quality = 0 },
-                    new Item { Name = ElixirOfTheMongoose, SellIn = 5, Quality = 7 },
-                    new Item { Name = Sulfuras, SellIn = 0, Quality = 80 },
-                    new Item { Name = BackstagePasses, SellIn = 15, Quality = 20 },
-                    new Item { Name = ConjuredManaCake, SellIn = 3, Quality = 6 },
+                    new Item { Name = ItemName.DexterityVest, SellIn = 10, Quality = 20 },
+                    new Item { Name = ItemName.AgedBrie, SellIn = 2, Quality = 0 },
+                    new Item { Name = ItemName.ElixirOfTheMongoose, SellIn = 5, Quality = 7 },
+                    new Item { Name = ItemName.Sulfuras, SellIn = 0, Quality = 80 },
+                    new Item { Name = ItemName.BackstagePasses, SellIn = 15, Quality = 20 },
+                    new Item { Name = ItemName.ConjuredManaCake, SellIn = 3, Quality = 6 },
                 },
             };
 
@@ -83,7 +76,7 @@ namespace GildedRose.Console
         [AgingStrategy]
         private class AgedBrieAgingStrategy : AgingStrategy
         {
-            public override bool CanHandle(string name) => name == AgedBrie;
+            public override bool CanHandle(string name) => name == ItemName.AgedBrie;
 
             public override int GetQualityChange(int sellIn, int quality) =>
                 -GetStandardQualityChange(sellIn);
@@ -94,7 +87,7 @@ namespace GildedRose.Console
         [AgingStrategy]
         private class SulfurasAgingStrategy : AgingStrategy
         {
-            public override bool CanHandle(string name) => name == Sulfuras;
+            public override bool CanHandle(string name) => name == ItemName.Sulfuras;
 
             public override int GetQualityChange(int sellIn, int quality) => 0;
 
@@ -104,7 +97,7 @@ namespace GildedRose.Console
         [AgingStrategy]
         private class BackstagePassesAgingStrategy : AgingStrategy
         {
-            public override bool CanHandle(string name) => name == BackstagePasses;
+            public override bool CanHandle(string name) => name == ItemName.BackstagePasses;
 
             public override int GetQualityChange(int sellIn, int quality) =>
                 sellIn <= 0 ? -quality :
