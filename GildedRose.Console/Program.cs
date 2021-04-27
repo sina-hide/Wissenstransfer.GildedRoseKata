@@ -55,6 +55,9 @@ namespace GildedRose.Console
         {
             var agingStrategy = SelectAgingStrategy(item);
             agingStrategy.UpdateItemQuality(item);
+
+            if (agingStrategy.IsAging)
+                AgingStrategy.DecrementSellIn(item);
         }
 
         private static AgingStrategy SelectAgingStrategy(Item item) =>
@@ -80,7 +83,9 @@ namespace GildedRose.Console
 
             public abstract void UpdateItemQuality(Item item);
 
-            protected static void DecrementSellIn(Item item)
+            public abstract bool IsAging { get; }
+
+            public static void DecrementSellIn(Item item)
             {
                 item.SellIn--;
             }
@@ -107,6 +112,8 @@ namespace GildedRose.Console
         {
             public override bool CanHandle(string name) => name == AgedBrie;
 
+            public override bool IsAging => true;
+
             public override void UpdateItemQuality(Item item)
             {
                 IncrementQuality(item);
@@ -115,8 +122,6 @@ namespace GildedRose.Console
                 {
                     IncrementQuality(item);
                 }
-
-                DecrementSellIn(item);
             }
         }
 
@@ -129,6 +134,8 @@ namespace GildedRose.Console
             {
                 // Sulfuras' quality and its sellIn never change.
             }
+
+            public override bool IsAging => false;
         }
 
         [AgingStrategy]
@@ -154,9 +161,9 @@ namespace GildedRose.Console
                 {
                     item.Quality = 0;
                 }
-
-                DecrementSellIn(item);
             }
+
+            public override bool IsAging => true;
         }
 
         [AgingStrategy(IsDefault = true)]
@@ -172,9 +179,9 @@ namespace GildedRose.Console
                 {
                     DecrementQuality(item);
                 }
-
-                DecrementSellIn(item);
             }
+
+            public override bool IsAging => true;
         }
     }
 
