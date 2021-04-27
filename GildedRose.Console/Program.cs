@@ -53,27 +53,28 @@ namespace GildedRose.Console
 
         private static void UpdateItemQuality(Item item)
         {
-            var updater = SelectUpdater(item);
-            updater.UpdateItemQuality(item);
+            var agingStrategy = SelectAgingStrategy(item);
+            agingStrategy.UpdateItemQuality(item);
         }
 
-        private static Updater SelectUpdater(Item item) =>
-            CreateUpdaters().First(updater => updater.CanHandle(item.Name));
+        private static AgingStrategy SelectAgingStrategy(Item item) =>
+            CreateAgingStrategies()
+                .First(strategy => strategy.CanHandle(item.Name));
 
-        private static IEnumerable<Updater> CreateUpdaters() =>
+        private static IEnumerable<AgingStrategy> CreateAgingStrategies() =>
             from type in Assembly.GetExecutingAssembly().GetTypes()
-            let updaterAttribute = type.GetCustomAttribute<UpdaterAttribute>()
-            where updaterAttribute != null
-            orderby updaterAttribute.IsDefault
-            select (Updater)Activator.CreateInstance(type);
+            let attribute = type.GetCustomAttribute<AgingStrategyAttribute>()
+            where attribute != null
+            orderby attribute.IsDefault
+            select (AgingStrategy)Activator.CreateInstance(type);
 
         [AttributeUsage(AttributeTargets.Class)]
-        public class UpdaterAttribute : Attribute
+        public class AgingStrategyAttribute : Attribute
         {
             public bool IsDefault { get; set; } = false;
         }
 
-        private abstract class Updater
+        private abstract class AgingStrategy
         {
             public abstract bool CanHandle(string name);
 
@@ -101,8 +102,8 @@ namespace GildedRose.Console
             }
         }
 
-        [Updater]
-        private class AgedBrieUpdater : Updater
+        [AgingStrategy]
+        private class AgedBrieAgingStrategy : AgingStrategy
         {
             public override bool CanHandle(string name) => name == AgedBrie;
 
@@ -119,8 +120,8 @@ namespace GildedRose.Console
             }
         }
 
-        [Updater]
-        private class SulfurasUpdater : Updater
+        [AgingStrategy]
+        private class SulfurasAgingStrategy : AgingStrategy
         {
             public override bool CanHandle(string name) => name == Sulfuras;
 
@@ -130,8 +131,8 @@ namespace GildedRose.Console
             }
         }
 
-        [Updater]
-        private class BackstagePassesUpdater : Updater
+        [AgingStrategy]
+        private class BackstagePassesAgingStrategy : AgingStrategy
         {
             public override bool CanHandle(string name) => name == BackstagePasses;
 
@@ -158,8 +159,8 @@ namespace GildedRose.Console
             }
         }
 
-        [Updater(IsDefault = true)]
-        private class StandardUpdater : Updater
+        [AgingStrategy(IsDefault = true)]
+        private class StandardAgingStrategy : AgingStrategy
         {
             public override bool CanHandle(string name) => true;
 
