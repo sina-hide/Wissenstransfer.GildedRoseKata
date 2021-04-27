@@ -91,6 +91,14 @@ namespace GildedRose.Console
                     item.Quality++;
                 }
             }
+
+            protected static void DecrementQuality(Item item)
+            {
+                if (item.Quality > 0)
+                {
+                    item.Quality--;
+                }
+            }
         }
 
         [Updater]
@@ -157,17 +165,11 @@ namespace GildedRose.Console
 
             public override void UpdateItemQuality(Item item)
             {
-                if (item.Quality > 0)
-                {
-                    item.Quality--;
-                }
+                DecrementQuality(item);
 
                 if (item.SellIn <= 0)
                 {
-                    if (item.Quality > 0)
-                    {
-                        item.Quality--;
-                    }
+                    DecrementQuality(item);
                 }
 
                 DecrementSellIn(item);
