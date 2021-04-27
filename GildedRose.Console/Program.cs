@@ -47,133 +47,83 @@ namespace GildedRose.Console
         {
             foreach (var item in Items)
             {
-                UpdateItemQuality(item);
+                item.Update();
             }
         }
 
-        private static void UpdateItemQuality(Item item)
-        {
-            var updater = SelectUpdater(item);
-            updater.UpdateItemQuality(item);
-        }
+        public static AgingStrategy SelectAgingStrategy(Item item) =>
+            CreateAgingStrategies()
+                .First(strategy => strategy.CanHandle(item.Name));
 
-        private static Updater SelectUpdater(Item item) =>
-            CreateUpdaters().First(updater => updater.CanHandle(item.Name));
-
-        private static IEnumerable<Updater> CreateUpdaters() =>
+        private static IEnumerable<AgingStrategy> CreateAgingStrategies() =>
             from type in Assembly.GetExecutingAssembly().GetTypes()
-            let updaterAttribute = type.GetCustomAttribute<UpdaterAttribute>()
-            where updaterAttribute != null
-            orderby updaterAttribute.IsDefault
-            select (Updater)Activator.CreateInstance(type);
+            let attribute = type.GetCustomAttribute<AgingStrategyAttribute>()
+            where attribute != null
+            orderby attribute.IsDefault
+            select (AgingStrategy)Activator.CreateInstance(type);
 
         [AttributeUsage(AttributeTargets.Class)]
-        public class UpdaterAttribute : Attribute
+        public class AgingStrategyAttribute : Attribute
         {
             public bool IsDefault { get; set; } = false;
         }
 
-        private abstract class Updater
+        public abstract class AgingStrategy
         {
             public abstract bool CanHandle(string name);
 
-            public abstract void UpdateItemQuality(Item item);
+            public abstract int GetQualityChange(int sellIn, int quality);
 
-            protected static void DecrementSellIn(Item item)
-            {
-                item.SellIn--;
-            }
+            public abstract bool IsAging { get; }
 
-            protected static void IncrementQuality(Item item)
-            {
-                if (item.Quality < 50)
-                {
-                    item.Quality++;
-                }
-            }
-
-            protected static void DecrementQuality(Item item)
-            {
-                if (item.Quality > 0)
-                {
-                    item.Quality--;
-                }
-            }
+            protected static int GetStandardQualityChange(int sellIn) =>
+                sellIn <= 0 ? -2 : -1;
         }
 
-        [Updater]
-        private class AgedBrieUpdater : Updater
+        [AgingStrategy]
+        private class AgedBrieAgingStrategy : AgingStrategy
         {
             public override bool CanHandle(string name) => name == AgedBrie;
 
-            public override void UpdateItemQuality(Item item)
-            {
-                IncrementQuality(item);
+            public override int GetQualityChange(int sellIn, int quality) =>
+                -GetStandardQualityChange(sellIn);
 
-                if (item.SellIn <= 0)
-                {
-                    IncrementQuality(item);
-                }
-
-                DecrementSellIn(item);
-            }
+            public override bool IsAging => true;
         }
 
-        [Updater]
-        private class SulfurasUpdater : Updater
+        [AgingStrategy]
+        private class SulfurasAgingStrategy : AgingStrategy
         {
             public override bool CanHandle(string name) => name == Sulfuras;
 
-            public override void UpdateItemQuality(Item item)
-            {
-                // Sulfuras' quality and its sellIn never change.
-            }
+            public override int GetQualityChange(int sellIn, int quality) => 0;
+
+            public override bool IsAging => false;
         }
 
-        [Updater]
-        private class BackstagePassesUpdater : Updater
+        [AgingStrategy]
+        private class BackstagePassesAgingStrategy : AgingStrategy
         {
             public override bool CanHandle(string name) => name == BackstagePasses;
 
-            public override void UpdateItemQuality(Item item)
-            {
-                IncrementQuality(item);
+            public override int GetQualityChange(int sellIn, int quality) =>
+                sellIn <= 0 ? -quality :
+                sellIn <= 5 ? 3 :
+                sellIn <= 10 ? 2 :
+                1;
 
-                if (item.SellIn < 11)
-                {
-                    IncrementQuality(item);
-                }
-
-                if (item.SellIn < 6)
-                {
-                    IncrementQuality(item);
-                }
-
-                if (item.SellIn <= 0)
-                {
-                    item.Quality = 0;
-                }
-
-                DecrementSellIn(item);
-            }
+            public override bool IsAging => true;
         }
 
-        [Updater(IsDefault = true)]
-        private class StandardUpdater : Updater
+        [AgingStrategy(IsDefault = true)]
+        private class StandardAgingStrategy : AgingStrategy
         {
             public override bool CanHandle(string name) => true;
 
-            public override void UpdateItemQuality(Item item)
-            {
-                DecrementQuality(item);
+            public override int GetQualityChange(int sellIn, int quality) =>
+                GetStandardQualityChange(sellIn);
 
-                if (item.SellIn <= 0)
-                {
-                    DecrementQuality(item);
-                }
-
-                DecrementSellIn(item);
-            }
+            public override bool IsAging => true;
         }
     }
 
@@ -184,5 +134,55 @@ namespace GildedRose.Console
         public int SellIn { get; set; }
 
         public int Quality { get; set; }
+    }
+
+    public static class ItemExtensions
+    {
+        public static void Update(this Item item)
+        {
+            var agingStrategy = Program.SelectAgingStrategy(item);
+
+            var qualityChange = agingStrategy.GetQualityChange(item.SellIn, item.Quality);
+            item.ChangeQualityBy(qualityChange);
+
+            if (agingStrategy.IsAging)
+                item.DecrementSellIn();
+        }
+
+        private static void DecrementSellIn(this Item item)
+        {
+            item.SellIn--;
+        }
+
+        private static void ChangeQualityBy(this Item item, int qualityChange)
+        {
+            if (qualityChange == 0)
+                return;
+
+            if (qualityChange > 0)
+                item.IncrementQuality(qualityChange);
+            else
+                item.DecrementQuality(-qualityChange);
+        }
+
+        private static void IncrementQuality(this Item item, int count)
+        {
+            var remaining = count;
+            while (remaining > 0 && item.Quality < 50)
+            {
+                item.Quality++;
+                remaining--;
+            }
+        }
+
+        private static void DecrementQuality(this Item item, int count)
+        {
+            var remaining = count;
+            while (remaining > 0 && item.Quality > 0)
+            {
+                item.Quality--;
+                remaining--;
+            }
+        }
     }
 }
