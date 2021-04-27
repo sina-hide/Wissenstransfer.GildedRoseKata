@@ -78,6 +78,11 @@ namespace GildedRose.Console
             public abstract bool CanHandle(string name);
 
             public abstract void UpdateItemQuality(Item item);
+
+            protected static void DecrementSellIn(Item item)
+            {
+                item.SellIn--;
+            }
         }
 
         [Updater]
@@ -100,7 +105,7 @@ namespace GildedRose.Console
                     }
                 }
 
-                item.SellIn--;
+                DecrementSellIn(item);
             }
         }
 
@@ -148,7 +153,7 @@ namespace GildedRose.Console
                     item.Quality = 0;
                 }
 
-                item.SellIn--;
+                DecrementSellIn(item);
             }
         }
 
@@ -172,7 +177,7 @@ namespace GildedRose.Console
                     }
                 }
 
-                item.SellIn--;
+                DecrementSellIn(item);
             }
         }
     }
