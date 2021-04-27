@@ -1,8 +1,18 @@
+using System.Collections.Generic;
+
 namespace GildedRose.Console
 {
     public static class ItemExtensions
     {
-        public static void Update(this Item item)
+        public static void Update(this IEnumerable<Item> items)
+        {
+            foreach (var item in items)
+            {
+                item.Update();
+            }
+        }
+
+        private static void Update(this Item item)
         {
             var agingStrategy = AgingStrategySelector.SelectAgingStrategy(item);
 

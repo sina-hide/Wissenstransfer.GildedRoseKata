@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace GildedRose.Console
@@ -28,17 +29,20 @@ namespace GildedRose.Console
                 },
             };
 
-            app.UpdateQuality();
+            app.UpdateItems();
 
             System.Console.ReadKey();
         }
 
-        public void UpdateQuality()
+        [Obsolete("use UpdateItems")]
+        public void UpdateQuality()  // retain name for backward compatibility
         {
-            foreach (var item in Items)
-            {
-                item.Update();
-            }
+            UpdateItems();
+        }
+
+        public void UpdateItems()
+        {
+            Items.Update();
         }
     }
 
