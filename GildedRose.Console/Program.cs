@@ -75,6 +75,9 @@ namespace GildedRose.Console
             public abstract int GetQualityChange(int sellIn, int quality);
 
             public abstract bool IsAging { get; }
+
+            protected static int GetStandardQualityChange(int sellIn) =>
+                sellIn <= 0 ? -2 : -1;
         }
 
         [AgingStrategy]
@@ -83,7 +86,7 @@ namespace GildedRose.Console
             public override bool CanHandle(string name) => name == AgedBrie;
 
             public override int GetQualityChange(int sellIn, int quality) =>
-                sellIn <= 0 ? 2 : 1;
+                -GetStandardQualityChange(sellIn);
 
             public override bool IsAging => true;
         }
@@ -118,7 +121,7 @@ namespace GildedRose.Console
             public override bool CanHandle(string name) => true;
 
             public override int GetQualityChange(int sellIn, int quality) =>
-                sellIn <= 0 ? -2 : -1;
+                GetStandardQualityChange(sellIn);
 
             public override bool IsAging => true;
         }
